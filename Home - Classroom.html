@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home - Classroom</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bar:#ffffff; --bg:#f6f7f9; --card:#ffffff; --line:#e3e6eb;
+  --text:#1c2330; --muted:#6b7482; --accent:#2f6fed; --input:#f0f2f5;
+  --tl:93%; --ts:55%; --ml:46%;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bar:#151a21; --bg:#0f1217; --card:#171c24; --line:#262d38;
+    --text:#e8ebf0; --muted:#8b94a3; --accent:#6ea0ff; --input:#1e2530;
+    --tl:20%; --ts:30%; --ml:50%;
+  }
+}
+:root[data-theme="dark"]{
+  --bar:#151a21; --bg:#0f1217; --card:#171c24; --line:#262d38;
+  --text:#e8ebf0; --muted:#8b94a3; --accent:#6ea0ff; --input:#1e2530;
+  --tl:20%; --ts:30%; --ml:50%;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bar);border-bottom:1px solid var(--line)}
+.bar{max-width:1240px;margin:0 auto;padding:14px 28px;display:grid;grid-template-columns:auto minmax(0,560px) 1fr;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:28px;height:28px;color:var(--accent);flex:none}
+.logo{font-weight:700;font-size:1.1rem;letter-spacing:.02em;margin:0;white-space:nowrap}
+.titles{display:flex;flex-direction:column;gap:3px;min-width:0}
+.disclaimer{margin:0;font-size:.72rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.search{position:relative;display:block}
+.search .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none}
+.search input{width:100%;height:44px;border:1px solid transparent;border-radius:10px;background:var(--input);color:var(--text);font:400 .98rem "Inter",system-ui,sans-serif;padding:0 52px 0 44px;outline:none;transition:border-color .15s,background .15s}
+.search input::placeholder{color:var(--muted)}
+.search input:focus-visible{border-color:var(--accent);background:var(--bar)}
+.search kbd{position:absolute;right:12px;top:50%;transform:translateY(-50%);font:500 .75rem "Inter",sans-serif;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 8px;pointer-events:none}
+main{max-width:1240px;margin:0 auto;padding:28px 28px 64px}
+.go{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 22px}
+.go input{flex:1 1 280px;max-width:640px;height:42px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);font:400 .95rem "Inter",system-ui,sans-serif;padding:0 14px;outline:none}
+.go input::placeholder{color:var(--muted)}
+.go input:focus-visible{border-color:var(--accent)}
+.go button{height:42px;padding:0 24px;border:0;border-radius:8px;background:var(--text);color:var(--bar);font:600 .92rem "Inter",system-ui,sans-serif;cursor:pointer}
+.go button:hover{opacity:.88}
+.go button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go-err{flex-basis:100%;margin:0;color:#e5484d;font-size:.85rem}
+.go-err[hidden]{display:none}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin:0 0 22px;border-bottom:1px solid var(--line)}
+.tab{white-space:nowrap;font:500 .95rem "Inter",system-ui,sans-serif;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 18px;cursor:pointer}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;border-radius:8px}
+.note{display:flex;align-items:center;justify-content:flex-start;gap:10px;width:fit-content;max-width:100%;margin:0 0 18px;padding:10px 16px 10px 14px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;font-weight:500;font-size:.92rem;text-align:left}
+.note[hidden]{display:none}
+.toprow{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0 0 18px}
+.toprow .note{margin:0}
+.surprise{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border:0;border-radius:8px;background:var(--text);color:var(--bar);font:600 .92rem "Inter",system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.surprise:hover{opacity:.88}
+.switch{position:relative;flex:none;width:52px;height:28px;padding:0;border:0;border-radius:999px;background:var(--line);cursor:pointer;transition:background-color .25s ease}
+.switch .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:999px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .28s cubic-bezier(.3,1.5,.5,1),width .15s ease}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"] .knob{transform:translateX(24px)}
+.switch:active .knob{width:28px}
+.switch[aria-checked="true"]:active .knob{transform:translateX(18px)}
+.switch:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.switchwrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.switch-label{font-size:.75rem;font-weight:500;color:var(--muted);white-space:nowrap}
+body,header,.note,.slot,.go input,.search input{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
+.tile{transition:border-color .3s ease,background-color .3s ease,color .3s ease}
+.surprise:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.surprise svg{width:18px;height:18px;flex:none}
+.note svg{width:20px;height:20px;flex:none;color:var(--accent)}
+.count{color:var(--muted);font-size:.9rem;font-weight:500;margin:0 0 16px;min-height:1.2em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(16,24,40,.06);transition:border-color .15s}
+.tile:hover{border-color:var(--accent)}
+.tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumb{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:hsl(var(--h,220) var(--ts) var(--tl))}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.mark{width:56px;height:56px;border-radius:14px;background:hsl(var(--h,220) 55% var(--ml));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:1.6rem}
+.badge{position:absolute;top:10px;right:10px;font:500 .72rem "Inter",sans-serif;background:var(--card);color:var(--muted);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+.name{padding:12px 16px 2px;font-weight:600;font-size:.98rem}
+.desc{padding:0 16px 14px;color:var(--muted);font-size:.85rem}
+.slot{border:2px dashed var(--line);border-radius:12px;aspect-ratio:1.4/1;display:flex;align-items:center;justify-content:center;color:var(--line)}
+.slot svg{width:34px;height:34px}
+.empty{text-align:center;color:var(--muted);margin:36px 0 0;font-size:.95rem}
+@media (max-width:700px){
+  .bar{grid-template-columns:1fr;padding:12px 16px 14px;gap:12px}
+  .brand{justify-content:center}
+  .logo{white-space:normal;font-size:1rem;text-align:center}
+  .titles{align-items:center}
+  .disclaimer{text-align:center}
+  .search kbd{display:none}
+  main{padding:20px 16px 44px}
+  .grid{grid-template-columns:1fr;gap:14px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h4M8 9v4"/><circle cx="15.5" cy="10" r=".6" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".6" fill="currentColor"/><path d="M17.3 6H6.7a4 4 0 0 0-3.9 3.2l-1 5.4A2.6 2.6 0 0 0 6.5 16l1.4-1.8h8.2l1.4 1.8a2.6 2.6 0 0 0 4.7-1.4l-1-5.4A4 4 0 0 0 17.3 6z"/></svg>
+      <div class="titles">
+        <h1 class="logo">UNBLOCKED GAMES WEBSITES</h1>
+        <p class="disclaimer">IF THE WEBSITES DONT WORK IT IS NOT OUR FAULT</p>
+      </div>
+    </div>
+    <label class="search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search websites" aria-label="Search websites" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <div></div>
+  </div>
+</header>
+<main>
+  <div class="go">
+    <input id="goUrl" type="text" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type in this box to secretly go into a different tab by pressing spacebar" aria-label="Website address">
+    <button id="goBtn" type="button">Go</button>
+    <p class="go-err" id="goErr" hidden>Enter a valid web address, like example.com</p>
+  </div>
+  <nav class="tabs" aria-label="Site categories">
+    <button class="tab active" data-tab="games" aria-current="true">Games</button>
+    <button class="tab" data-tab="testing">Testing</button>
+    <button class="tab" data-tab="twoplayer">Two Player Websites</button>
+    <button class="tab" data-tab="all">All</button>
+  </nav>
+  <div class="toprow">
+  <button class="surprise" id="surprise" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Surprise Me</button>
+  <p class="note" id="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6M17 9l6 6"/></svg><span>Turn off your volume before playing a game!</span></p>
+  <div class="switchwrap"><button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode" title="Dark mode"><span class="knob"></span></button><span class="switch-label" id="themeLabel">Light Mode</span></div>
+  </div>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty"></p>
+</main>
+<script>
+// Add games here later, e.g. { name: "Game name", url: "https://...", img: "https://..." }
+const games = [
+  { name: "UBG006", desc: "ubg006.gitlab.io", url: "https://ubg006.gitlab.io" },
+  { name: "Basket Random", desc: "basketrandom-free.github.io", url: "https://basketrandom-free.github.io/classroom/new.html" },
+  { name: "Funny School", desc: "funny-school.github.io", url: "https://funny-school.github.io" }
+];
+
+const testing = [
+  { name: "Class6x", desc: "class6x.gitlab.io", url: "https://class6x.gitlab.io" },
+  { name: "Study10", desc: "study10-7c30e6.gitlab.io", url: "https://study10-7c30e6.gitlab.io" },
+  { name: "Salty Spamz", desc: "suite.saltyspamz.xyz", url: "https://suite.saltyspamz.xyz/games/" },
+  { name: "SM64", desc: "mathadventure1.github.io", url: "https://mathadventure1.github.io/sm64/sm64/index.html" },
+  { name: "Unblocked Games 64", desc: "unblockedgames64.github.io", url: "https://unblockedgames64.github.io" },
+  { name: "Ballbang Online", desc: "ballbang-online.github.io", url: "https://ballbang-online.github.io" },
+  { name: "Soccer Random", desc: "soccerrandom.io", url: "https://soccerrandom.io/new-games" },
+  { name: "Freezenova", desc: "freezenova.com", url: "https://freezenova.com" },
+  { name: "Git All Games", desc: "gitallgames.github.io", url: "https://gitallgames.github.io" },
+  { name: "Basketball Stars", desc: "basketball-stars.io", url: "https://basketball-stars.io" },
+  { name: "Poor Bunny", desc: "poorbunny.io", url: "https://poorbunny.io" },
+  { name: "Volley Random", desc: "volleyrandom.bitbucket.io", url: "https://volleyrandom.bitbucket.io" },
+  { name: "Gulper", desc: "gulper.io", url: "https://gulper.io" },
+  { name: "Unblocked Games S3", desc: "unblocked-games.s3.amazonaws.com", url: "https://unblocked-games.s3.amazonaws.com/index.html" },
+  { name: "Soccer Random Game", desc: "soccer-random-game.github.io", url: "https://soccer-random-game.github.io" },
+  { name: "Snow Rider 3D", desc: "baseballbrosunblocked.io", url: "https://baseballbrosunblocked.io/game/snow-rider-3d/" },
+  { name: "GitHub.io Games", desc: "githubio-games.gitlab.io", url: "https://githubio-games.gitlab.io" },
+  { name: "Game Pluto", desc: "gamepluto.gitlab.io", url: "https://gamepluto.gitlab.io" },
+  { name: "UBG6969", desc: "ubg6969.gitlab.io", url: "https://ubg6969.gitlab.io" },
+  { name: "Gibbat2 Games", desc: "gibbat2.github.io", url: "https://gibbat2.github.io/Games/" },
+  { name: "GitHub Games", desc: "githubgames.gitlab.io", url: "https://githubgames.gitlab.io/category/latest.html" },
+  { name: "Only Game", desc: "only-game.github.io", url: "https://only-game.github.io" },
+  { name: "All Games GitHub", desc: "allgamesgithub.gitlab.io", url: "https://allgamesgithub.gitlab.io" },
+  { name: "Git Hub Games", desc: "git-hub-games.github.io", url: "https://git-hub-games.github.io" },
+  { name: "Unblocked 2026", desc: "unblocked-2026.github.io", url: "https://unblocked-2026.github.io" },
+  { name: "Crazy Games", desc: "crazy-games.gitlab.io", url: "https://crazy-games.gitlab.io" },
+  { name: "Unblocked Games 76", desc: "unblockedgames76-pro.github.io", url: "https://unblockedgames76-pro.github.io" },
+  { name: "Classroom Game", desc: "classroomgame.github.io", url: "https://classroomgame.github.io" },
+  { name: "UBG WTF", desc: "ubgwtf.gitlab.io", url: "https://ubgwtf.gitlab.io" },
+  { name: "UBG76", desc: "ubg76.gitlab.io", url: "https://ubg76.gitlab.io" },
+  { name: "UBG98", desc: "ubg98.github.io", url: "https://ubg98.github.io" },
+  { name: "Boxing Random", desc: "boxing-random.gitlab.io", url: "https://boxing-random.gitlab.io" },
+  { name: "NB GA Games", desc: "nb-ga.github.io", url: "https://nb-ga.github.io/games-site/" },
+  { name: "Sports Games", desc: "sportsgames.gitlab.io", url: "https://sportsgames.gitlab.io" },
+  { name: "Basketball Games", desc: "basketballgames.gitlab.io", url: "https://basketballgames.gitlab.io" },
+  { name: "A Small World Cup", desc: "asmall-worldcup.github.io", url: "https://asmall-worldcup.github.io" },
+  { name: "Genizy Math", desc: "genizymath.github.io", url: "https://genizymath.github.io" },
+  { name: "Steal a Brainrot", desc: "stealabrainrot.gitlab.io", url: "https://stealabrainrot.gitlab.io" },
+  { name: "New Unblocked Games", desc: "newunblockedgames.gitlab.io", url: "https://newunblockedgames.gitlab.io" },
+  { name: "Super Liquid Soccer", desc: "superliquidsoccer-online.github.io", url: "https://superliquidsoccer-online.github.io" },
+  { name: "Tyrone Games", desc: "tyronegames.gitlab.io", url: "https://tyronegames.gitlab.io" },
+  { name: "Google Pacman", desc: "google-pacman.github.io", url: "https://google-pacman.github.io/play/basket-random.html" },
+  { name: "SZ Game", desc: "szgame.gitlab.io", url: "https://szgame.gitlab.io" },
+  { name: "UBG02", desc: "ubg02.gitlab.io", url: "https://ubg02.gitlab.io" },
+  { name: "Ragdoll Hit", desc: "ragdoll-hit-game.github.io", url: "https://ragdoll-hit-game.github.io" },
+  { name: "Unblocked Games World", desc: "unblockedgamesworld.gitsites.io", url: "https://unblockedgamesworld.gitsites.io" }
+]; // sites for the Testing tab go here
+const twoPlayer = [
+  { name: "2 Player Online", desc: "2player-online.github.io", url: "https://2player-online.github.io" },
+  { name: "Two Player Games", desc: "twoplayergames.org", url: "https://www.twoplayergames.org" }
+]; // sites for the Two Player Websites tab go here
+let current = "games";
+const grid = document.getElementById("grid");
+const q = document.getElementById("q");
+const count = document.getElementById("count");
+const empty = document.getElementById("empty");
+const padIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4"/><circle cx="15.5" cy="10" r=".6" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".6" fill="currentColor"/><path d="M17.3 6H6.7a4 4 0 0 0-3.9 3.2l-1 5.4A2.6 2.6 0 0 0 6.5 16l1.4-1.8h8.2l1.4 1.8a2.6 2.6 0 0 0 4.7-1.4l-1-5.4A4 4 0 0 0 17.3 6z"/></svg>';
+
+function lev(a, b) {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+// Lower score = better. 0 exact, 1 starts with, 2 word starts with, 3 contains, 4 domain contains, 10+ = typo distance
+function score(g, term, ct) {
+  const name = g.name.toLowerCase(), dom = (g.desc || "").toLowerCase();
+  const nc = name.replace(/[^a-z0-9]/g, "");
+  if (name === term || nc === ct) return 0;
+  if (name.startsWith(term) || nc.startsWith(ct)) return 1;
+  const words = name.split(/[^a-z0-9]+/).filter(Boolean);
+  if (words.some(w => w.startsWith(term))) return 2;
+  if (name.includes(term) || nc.includes(ct)) return 3;
+  if (dom.includes(term)) return 4;
+  if (ct.length < 3) return 99;
+  const label = dom.split(".")[0].replace(/[^a-z0-9]/g, "");
+  const cands = [...words, nc.slice(0, ct.length), nc.slice(0, ct.length + 1), nc.slice(0, Math.max(1, ct.length - 1)), label.slice(0, ct.length)];
+  return 10 + Math.min(...cands.map(c => lev(ct, c)));
+}
+function search(items, raw) {
+  const term = raw.trim().toLowerCase();
+  if (!term) return { list: items, closest: false };
+  const ct = term.replace(/[^a-z0-9]/g, "");
+  const scored = items.map((g, i) => ({ g, i, s: score(g, term, ct) }));
+  const tol = Math.max(1, Math.floor(ct.length / 3));
+  let hits = scored.filter(r => r.s < 10 || (r.s < 99 && r.s - 10 <= tol));
+  let closest = false;
+  if (!hits.length && ct.length >= 3) {
+    hits = scored.slice().sort((a, b) => a.s - b.s || a.i - b.i).slice(0, 3);
+    closest = hits.length > 0;
+  }
+  hits.sort((a, b) => a.s - b.s || a.i - b.i);
+  return { list: hits.map(r => r.g), closest };
+}
+
+function render() {
+  const term = q.value.trim().toLowerCase();
+  const seen = new Set();
+  const everything = [...games, ...testing, ...twoPlayer].filter(g => !seen.has(g.url) && seen.add(g.url));
+  const all = current === "games" ? games : current === "testing" ? testing : current === "twoplayer" ? twoPlayer : everything;
+  const { list, closest } = search(all, q.value);
+  grid.innerHTML = "";
+  if (!all.length) {
+    for (let i = 0; i < 12; i++) { const s = document.createElement("div"); s.className = "slot"; s.innerHTML = padIcon; grid.appendChild(s); }
+    count.textContent = "";
+    empty.textContent = "No websites yet. They’ll show up here once they’re added.";
+    return;
+  }
+  list.forEach(g => {
+    const a = document.createElement("a");
+    a.className = "tile"; a.href = g.url; a.target = "_blank"; a.rel = "noopener";
+    const t = document.createElement("div"); t.className = "thumb";
+    let h = 0; for (const c of g.name) h = (h * 31 + c.charCodeAt(0)) % 360;
+    t.style.setProperty("--h", h);
+    if (g.img) { t.classList.add("has-img"); const im = document.createElement("img"); im.src = g.img; im.alt = ""; t.appendChild(im); }
+    else {
+      const m = document.createElement("div"); m.className = "mark"; m.textContent = g.name.charAt(0).toUpperCase();
+      const b = document.createElement("div"); b.className = "badge"; b.textContent = "Open ↗";
+      t.append(m, b);
+    }
+    const n = document.createElement("div"); n.className = "name"; n.textContent = g.name;
+    const d = document.createElement("div"); d.className = "desc"; d.textContent = g.desc || "";
+    a.append(t, n, d); grid.appendChild(a);
+  });
+  count.textContent = closest ? "Closest matches for “" + q.value.trim() + "”" : list.length + (list.length === 1 ? " website" : " websites");
+  empty.textContent = list.length ? "" : "No websites match your search.";
+}
+q.addEventListener("input", render);
+function goToUrl(quiet) {
+  const input = document.getElementById("goUrl"), err = document.getElementById("goErr");
+  let v = input.value.trim();
+  err.hidden = true;
+  if (!v) { if (!quiet) err.hidden = false; return false; }
+  if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = "https://" + v;
+  let u;
+  try { u = new URL(v); } catch (e) { if (!quiet) err.hidden = false; return false; }
+  if ((u.protocol !== "http:" && u.protocol !== "https:") || !u.hostname.includes(".")) { if (!quiet) err.hidden = false; return false; }
+  window.open(u.href, "_blank", "noopener");
+  return true;
+}
+document.getElementById("goBtn").addEventListener("click", () => goToUrl());
+document.getElementById("goUrl").addEventListener("keydown", e => { if (e.key === "Enter") goToUrl(); });
+try { const saved = localStorage.getItem("goUrl"); if (saved) document.getElementById("goUrl").value = saved; } catch (e) {}
+document.getElementById("goUrl").addEventListener("input", e => {
+  document.getElementById("goErr").hidden = true;
+  try { localStorage.setItem("goUrl", e.target.value); } catch (err) {}
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== " " && e.code !== "Space") return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const el = e.target, tag = el && el.tagName ? el.tagName : "";
+  const inGo = !!el && el.id === "goUrl";
+  if (e.isComposing) return;
+  if (!inGo && (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON" || tag === "A" || (el && el.isContentEditable))) return;
+  if (!document.getElementById("goUrl").value.trim()) { if (inGo) e.preventDefault(); return; }
+  const opened = goToUrl(!inGo);
+  if (opened || inGo) e.preventDefault();
+});
+const sw = document.getElementById("themeSwitch");
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  sw.setAttribute("aria-checked", t === "dark" ? "true" : "false");
+  document.getElementById("themeLabel").textContent = t === "dark" ? "Dark Mode" : "Light Mode";
+}
+(function () {
+  let t = null;
+  try { t = localStorage.getItem("theme"); } catch (e) {}
+  if (t !== "dark" && t !== "light") t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(t);
+})();
+sw.addEventListener("click", () => {
+  const t = sw.getAttribute("aria-checked") === "true" ? "light" : "dark";
+  applyTheme(t);
+  try { localStorage.setItem("theme", t); } catch (e) {}
+});
+let bag = [], lastPick = "";
+document.getElementById("surprise").addEventListener("click", () => {
+  const urls = [...new Set([...games, ...testing, ...twoPlayer].map(g => g.url))];
+  if (!urls.length) return;
+  if (!bag.length) {
+    bag = urls.slice();
+    for (let i = bag.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bag[i], bag[j]] = [bag[j], bag[i]]; }
+    if (bag.length > 1 && bag[bag.length - 1] === lastPick) bag.unshift(bag.pop());
+  }
+  lastPick = bag.pop();
+  window.open(lastPick, "_blank", "noopener");
+});
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  current = b.dataset.tab;
+  document.querySelectorAll(".tab").forEach(x => {
+    x.classList.toggle("active", x === b);
+    if (x === b) x.setAttribute("aria-current", "true"); else x.removeAttribute("aria-current");
+  });
+  render();
+}));
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || "") && !e.target.isContentEditable) { e.preventDefault(); q.focus(); }
+});
+render();
+</script>
+</body>
+</html>
